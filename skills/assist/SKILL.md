@@ -38,6 +38,26 @@ letters and the tagline under it, in Italian, exactly as written. Do not transla
         e sei di nuovo protagonista
 ```
 
+## First-start check: superpowers
+
+Right after the banner, once per conversation, check whether the `superpowers` plugin is available: its skills
+(`superpowers:brainstorming`, `superpowers:writing-plans`, `superpowers:test-driven-development`) are in your
+list of available skills, or `claude plugin list` shows `superpowers@claude-plugins-official` as enabled.
+
+- **Present:** say nothing and go on.
+- **Absent:** ask the user, with the question tool (yes / not now), whether to download it. Say in one line what
+  it is for: phases 1, 3 and 4 use its brainstorming, planning and test-driven skills; without it /assist
+  follows a condensed process of its own.
+  - **Yes:** run `claude plugin install superpowers@claude-plugins-official` (user scope, the default), then
+    check that `claude plugin list` shows it. Plugins load when a session starts, so tell the user to open a
+    new session to get it, and meanwhile follow `references/fallback-process.md`. Write "superpowers:
+    installed, loads next session" in `STATE.md`.
+  - **If the command cannot run** (the `claude` command is not on the PATH, the marketplace is unknown, the
+    network is down): do not improvise. Give the user the in-app command `/plugin install
+    superpowers@claude-plugins-official` to type themselves, and carry on with the fallback.
+  - **No or not now:** write "superpowers: declined" in `STATE.md`, do not ask again, use the fallback.
+- Installing adds software to the user's setup: never do it without the yes.
+
 ## Principles (apply in every phase)
 
 1. **Code to Claude, decisions to the user.** Whenever a choice changes the physics, the model, the
@@ -127,9 +147,8 @@ Phases 1, 3 and 4 reuse the superpowers process skills when present:
 
 - **Present** → invoke it, and layer the /assist rules on top (decisions go to `DECISIONS.md`, spec and
   plan are saved under `docs/assist/`, the block contracts and parameters file are part of the design).
-- **Absent** → tell the user once that /assist works best with superpowers and suggest
-  `/plugin install superpowers@claude-plugins-official`. If they decline, follow
-  `references/fallback-process.md` and record the choice in `STATE.md` so you don't ask again.
+- **Absent** → the first-start check above has already asked the user (and installed it on a yes). Until a
+  new session loads it, or if the user declined, follow `references/fallback-process.md`.
 
 For MATLAB Live Scripts use `matlab-core:matlab-create-live-script` if available, on top of
 `references/live-script-format.md`.

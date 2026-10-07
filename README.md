@@ -110,9 +110,11 @@ installed, and install it only if it is not. Each step has a check; do not go on
    *Check:* `~/.claude/skills/assist/SKILL.md` is readable and its first lines contain `name: assist`.
 4. **Reload.** A skill is picked up when a session starts. You cannot do this yourself: tell the user to open
    a new session (or restart Claude Code), then type `/assist`. *Check:* the ASSIST banner appears.
-5. **Optional companions** (ask first, never install silently): the `superpowers` plugin
-   (`/plugin install superpowers@claude-plugins-official`) and, for MATLAB projects, a MATLAB MCP server.
-   If the user declines superpowers, the skill uses its built-in condensed process.
+5. **Optional companions** (ask first, never install silently): the `superpowers` plugin and, for MATLAB
+   projects, a MATLAB MCP server. At its first start `/assist` checks for superpowers by itself: if it is
+   missing it asks the user, and on a yes installs it with
+   `claude plugin install superpowers@claude-plugins-official` (it then loads in the next session). If the
+   user declines, the skill uses its built-in condensed process.
 6. **Initialize the project the user wants to work on.** In that project's root, run `/assist` with no
    argument. The skill looks for `docs/assist/STATE.md`:
    - **present:** read it and resume where the project stands;
