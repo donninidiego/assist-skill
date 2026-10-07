@@ -161,3 +161,6 @@ Found while recording: a GIF keeps the palette of its first frame, and the first
 so a per-frame palette turned the green and the red into grey. The script now uses one fixed palette (greys plus tints
 of the two colours); checked by counting green pixels in frames 38–52 (GOAL) and red pixels in the POST and SHORT clips.
 The video is a recording of the animation, not of the Live Editor.
+
+The user dragged the sliders and watched the animation in the Live Editor and confirmed they work (2026-10-07), so the
+last "Not verified" of the second build round is closed.

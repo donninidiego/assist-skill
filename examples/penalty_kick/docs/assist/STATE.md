@@ -10,9 +10,9 @@ Read this first when resuming. Update it at the end of every step.
 | MBD profile | block chain (D8) |
 | superpowers | used |
 | Existing docs | none (new project) |
-| Current phase | 6 demo written, checked and run by Claude; waiting for the user to run it in the Live Editor. Phase 5 (docs, plan task 8) not done |
+| Current phase | 6 demo written, checked, and run in the Live Editor by the user (sliders and animation verified by the user, 2026-10-07). Phase 5 (docs, plan task 8) not done |
 | Last completed step | sliders, slow-motion animation, outcome tiles and the recorded video (`media/`, `tools/makeShotVideo.m`) added; example cited in the repo README, 2026-10-07 |
-| Next step | the user runs `examples/PenaltyKickWalkthrough.m` in the Live Editor, drags the sliders and watches the animation (close any open tab of the file without saving); then docs (task 8) and `/assist review` |
+| Next step | docs (plan task 8), then `/assist review` section by section |
 
 ## Test status
 51 passed, 0 failed, 0 incomplete (suite 2.2 s); static analysis clean (25 files, 0 issues); demo 3.9 s from the command

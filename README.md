@@ -180,8 +180,8 @@ executed on the authoring machine; run `pytest` once on first use.
 
 Example `penalty_kick` (7 October 2026, MATLAB R2026a Update 5): 51 tests pass, static analysis clean on 25 files,
 the demo runs in about 4 s from the command window, and MATLAB recognises its 5 sliders when the Live Script is
-converted to `.mlx`. Not yet done: the documentation phase of that example (guide README, theory notes), and a
-review of the sliders by a person dragging them in the Live Editor.
+converted to `.mlx`. The author dragged the sliders and watched the animation in the Live Editor (7 October 2026).
+Not yet done: the documentation phase of that example (guide README, theory notes) and the guided review.
 
 ## Origin
 Distilled from a research-software project built plan
