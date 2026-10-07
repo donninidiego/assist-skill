@@ -1,3 +1,14 @@
+```
+ █████╗ ███████╗███████╗██╗███████╗████████╗
+██╔══██╗██╔════╝██╔════╝██║██╔════╝╚══██╔══╝
+███████║███████╗███████╗██║███████╗   ██║
+██╔══██║╚════██║╚════██║██║╚════██║   ██║
+██║  ██║███████║███████║██║███████║   ██║
+╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝
+
+        e sei di nuovo protagonista
+```
+
 # /assist — engineering co-development with an AI
 
 A Claude Code skill that turns the way you work with an AI on scientific/engineering code into a
