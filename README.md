@@ -23,7 +23,7 @@ tests, optional Simulink/System Composer mapping.
 
 | # | Phase | Command | Result |
 |---|---|---|---|
-| 0 | Audit an existing project | `/assist audit` | block map, parameter inventory, gap table (originals untouched) |
+| 0 | Audit an existing project | `/assist audit` | first offers to read your existing docs (only with your permission), then block map, parameter inventory, gap table (originals untouched) |
 | 1 | Brainstorm & requirements | `/assist brainstorm` | `docs/assist/spec.md`, decisions logged |
 | 2 | Block architecture | `/assist architecture` | block chain, I/O contract per block, traceability matrix |
 | 3 | Plan | `/assist plan` | `docs/assist/plan.md` with stop points and falsifiable checks |
@@ -140,7 +140,7 @@ skills/assist/
   templates/matlab/     parameters.m, requireFields.m, exampleBlock.m (header), tExampleBlock.m,
                         loadTestParams.m, Walkthrough.m
   templates/python/     the Python twins
-  templates/docs/       STATE, spec, architecture, plan, DECISIONS, REVIEW_LOG, README guide,
+  templates/docs/       STATE, CONTEXT, spec, architecture, plan, DECISIONS, REVIEW_LOG, README guide,
                         block README, theory index, REFERENCES, PARAMETERS
 ```
 

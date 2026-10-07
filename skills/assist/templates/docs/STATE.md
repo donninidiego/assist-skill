@@ -9,6 +9,7 @@ Read this first when resuming. Update it at the end of every step.
 | Code language | MATLAB / Python |
 | MBD profile | block chain / hybrid / full MBD (decision D<n>) |
 | superpowers | used / declined (do not ask again) |
+| Existing docs | read (list in CONTEXT.md) / read in part / declined / none found |
 | Current phase | <0 audit … 8 close> |
 | Last completed step | <what, date> |
 | Next step | <one line> |

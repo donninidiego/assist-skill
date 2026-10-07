@@ -76,6 +76,7 @@ All process artefacts live in the project under `docs/assist/`:
 | File | Purpose |
 |---|---|
 | `STATE.md` | current phase, last completed step, next step, project language, open questions |
+| `CONTEXT.md` | digest of the project's existing documents, with their sources (phase 0, only if the user allowed reading them) |
 | `spec.md` | intent, requirements R1.., chosen approach (phase 1) |
 | `architecture.md` | block diagram, I/O contracts, traceability matrix, MBD mapping (phase 2) |
 | `plan.md` | tasks per block with stop points and falsifiable checks (phase 3) |
@@ -90,7 +91,8 @@ what lets a fresh session resume without re-deriving context.
 `/assist` with no argument:
 1. If `docs/assist/STATE.md` exists, read it, summarize in 3–4 lines where the project is, and propose
    the next step. Wait for the user.
-2. Otherwise inspect the folder. Existing code → propose phase 0 (audit). Empty/new → phase 1.
+2. Otherwise inspect the folder. Existing code → propose phase 0 (audit), which starts by offering to read
+   the project's documents to build context (only with the user's permission). Empty/new → phase 1.
 
 `/assist <phase>` jumps to a phase. If upstream artefacts are missing (e.g. `demo` with no block
 contracts), say which and offer to produce them first; proceed only if the user insists, noting the gap
