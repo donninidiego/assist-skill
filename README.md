@@ -39,7 +39,7 @@ tests, optional Simulink/System Composer mapping.
 Code to Claude, decisions to you (logged as D1, D2, …) · one block at a time · one parameters file, no
 hidden defaults · every equation traceable to a source and a test · captions state only what was
 measured · no long runs on your behalf · never modify originals · explanations that start from the
-physics.
+physics · the cheapest model that can do each delegated task, and other agent CLIs only if you say yes.
 
 ## Install
 

@@ -58,6 +58,10 @@ list of available skills, or `claude plugin list` shows `superpowers@claude-plug
   - **No or not now:** write "superpowers: declined" in `STATE.md`, do not ask again, use the fallback.
 - Installing adds software to the user's setup: never do it without the yes.
 
+Then, in the same first-start moment, check for other agent CLIs that could take cheap work (Antigravity, Gemini
+CLI and the like) and, if any is installed, ask the user whether to use them to save tokens. The procedure, and
+how to pick the model of each subagent, are in `references/delegation.md`.
+
 ## Principles (apply in every phase)
 
 1. **Code to Claude, decisions to the user.** Whenever a choice changes the physics, the model, the
@@ -84,6 +88,10 @@ list of available skills, or `claude plugin list` shows `superpowers@claude-plug
 8. **Explain like to a researcher.** Physical meaning → what the physics guarantees → what the numerical
    method does to preserve it → the actual code lines → where it breaks. Expand every acronym the first
    time. See `references/review-protocol.md`.
+9. **Right-size every delegation.** When you start a subagent, set the model that fits the task: light for
+   mechanical work, mid-tier for digests and routine writing, the strongest only for subtle reasoning and final
+   review. Never the strongest for everything. If other agent CLIs are installed (Antigravity, Gemini CLI…), ask
+   the user whether they may take cheap work to save tokens. See `references/delegation.md`.
 
 Coding style follows `references/coding-standards.md` (MATLAB and Python; function headers with
 PHYSICAL CONTEXT / THEORY / units / ASSUMPTIONS / Example; academic plots — **ask the journal-target
