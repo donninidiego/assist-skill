@@ -43,22 +43,42 @@ physics.
 
 ## Install
 
-Short command `/assist` (personal skill) — link or copy the skill folder:
+Claude Code only looks for skills in fixed places: `~/.claude/skills/` (yours, for every project) and
+`.claude/skills/` inside a project. A repository cloned anywhere else is not scanned, so installing means one
+extra step: make the skill folder show up in `~/.claude/skills/`.
+
+### The easy way: let your agent do it
+1. Clone this repository anywhere you keep your tools:
+   ```sh
+   git clone https://github.com/donninidiego/assist-skill.git
+   ```
+2. Open your AI coding agent in that folder and say: **"install the assist skill from this repo"**. The agent
+   follows the runbook in [For AI agents](#for-ai-agents-download-and-initialize-the-skill) below.
+3. Open a **new session** (skills load when a session starts) and type `/assist`. The ASSIST banner appears.
+
+### The manual way
+After cloning (step 1 above), from the folder that contains `assist-skill/`, create a link so that
+`~/.claude/skills/assist` points to the cloned skill. A link, not a copy: `git pull` then updates the skill.
 
 ```bat
 :: Windows (junction, no admin needed)
-mklink /J "%USERPROFILE%\.claude\skills\assist" "<path-to-this-repo>\skills\assist"
+mkdir "%USERPROFILE%\.claude\skills" 2>nul
+mklink /J "%USERPROFILE%\.claude\skills\assist" "%CD%\assist-skill\skills\assist"
 ```
 ```sh
 # macOS / Linux
-ln -s "<path-to-this-repo>/skills/assist" ~/.claude/skills/assist
+mkdir -p ~/.claude/skills
+ln -s "$(pwd)/assist-skill/skills/assist" ~/.claude/skills/assist
 ```
+Then open a new session and type `/assist`. If linking is not possible, copy the folder
+`assist-skill/skills/assist` to `~/.claude/skills/assist` instead (updates are then manual).
 
-As a plugin: add this repo as a plugin source; the skill is then namespaced (`assist-workflow:assist`).
-
-Optional but recommended: the `superpowers` plugin (`/plugin install superpowers@claude-plugins-official`).
-/assist uses its brainstorming, planning and TDD skills when present and falls back to a condensed
-built-in process otherwise.
+### Other options
+- **As a plugin:** add this repo as a plugin source; the skill is then namespaced (`assist-workflow:assist`).
+- **For one project only:** link or copy the same folder into that project's `.claude/skills/assist` instead.
+- **Recommended companion:** the `superpowers` plugin (`/plugin install superpowers@claude-plugins-official`).
+  /assist uses its brainstorming, planning and TDD skills when present and falls back to a condensed
+  built-in process otherwise.
 
 ## For AI agents: download and initialize the skill
 
