@@ -468,8 +468,8 @@ This question must be asked every time plotting is requested, not just once per 
 **Default (no journal target, see point 0 above)**: always use the LaTeX interpreter for text objects to seamlessly match the thesis/paper typography (Computer Modern). Do not mix default fonts with LaTeX.
 ```matlab
 % 1. Text, Titles, and Axis Labels
-title('Topography Analysis', 'Interpreter', 'latex');
-xlabel('Longitude [$^\circ$]', 'Interpreter', 'latex');
+title('Elevation Map', 'Interpreter', 'latex');
+xlabel('Heading [$^\circ$]', 'Interpreter', 'latex');
 
 % 2. Axis Ticks (Numbers) and Colorbar
 ax = gca;
@@ -484,8 +484,8 @@ c.Label.Interpreter = 'latex';
 ```matlab
 % 'tex' interpreter drops the $...$ math-mode delimiters LaTeX needs,
 % but still supports subscript/superscript via bare _ and ^:
-title('Path Ratio 2D (L_{2D}/D)', 'Interpreter', 'tex');
-xlabel('Longitude [\circ]', 'Interpreter', 'tex');
+title('Length Ratio (L_{a}/L_{b})', 'Interpreter', 'tex');
+xlabel('Heading [\circ]', 'Interpreter', 'tex');
 
 ax = gca;
 ax.TickLabelInterpreter = 'tex';
@@ -517,7 +517,7 @@ Note the `'tex'` interpreter only supports a subset of LaTeX math syntax (subscr
 
 #### 5. Figure Sizing and Export Coherence
 - **Default (no journal target, see point 0 above)**: never hardcode the `Position` property when creating a `figure` (e.g., avoid `figure('Position', [100, 100, 1600, 800])`). Let MATLAB use its default figure sizing (e.g., `f = figure('Name', 'My Plot', 'Color', 'w')`). This ensures that when plots are exported via `exportgraphics`, they all share the identical baseline physical dimension, so when imported and scaled into a LaTeX document, the typographic scaling stays uniform across all figures in the paper. Never artificially inflate `FontSize` (e.g., to 18pt or 22pt) to compensate for massive pixel-resolution windows — keep to the standard 10pt-12pt and let the LaTeX document handle the physical rendering.
-- **When adapting to a specific journal (point 0 confirmed)**: for Elsevier journals (including `elsarticle`-based ones like Aerospace Science and Technology), use the publisher's own official artwork sizing spec rather than guessing — see [Elsevier Artwork Sizing](https://www.elsevier.com/about/policies-and-standards/author/artwork-and-media-instructions/artwork-sizing):
+- **When adapting to a specific journal (point 0 confirmed)**: for Elsevier journals (including `elsarticle`-based ones), use the publisher's own official artwork sizing spec rather than guessing — see [Elsevier Artwork Sizing](https://www.elsevier.com/about/policies-and-standards/author/artwork-and-media-instructions/artwork-sizing):
 
   | Format | Width | Use for |
   |---|---|---|
