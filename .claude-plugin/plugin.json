@@ -1,0 +1,7 @@
+{
+  "name": "assist-workflow",
+  "version": "0.1.0",
+  "description": "/assist: an engineering workflow for AI-user co-development of scientific code. Claude writes the code, the user owns every engineering decision; plan-first development, block architecture (Model-Based Design friendly), single parameters file, coding standards, a Live Script walkthrough demo, and a guided section-by-section review.",
+  "license": "MIT",
+  "keywords": ["matlab", "python", "model-based-design", "scientific-computing", "workflow", "live-script"]
+}
