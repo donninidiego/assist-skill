@@ -24,16 +24,18 @@ docs and the demo in the language the user picks for the project (ask once, reco
 ## Startup banner
 
 When /assist starts a conversation (the first time it is invoked, not on every later message), print this
-banner once, verbatim, in a code block, then carry on with the routing below. It is a two-panel meme of the
-workflow's one rule; keep it exactly as is.
+banner once, verbatim, in a code block, then carry on with the routing below. It is a meme: the word in big
+letters and the tagline under it, in Italian, exactly as written. Do not translate or alter it.
 
 ```
-   ┌────────────────────────────────────────────────────────┐
-   │  NO   AI: "I chose the boundary condition for you."    │
-   ├────────────────────────────────────────────────────────┤
-   │  YES  AI: "Three options. I'd pick B. Your call."      │
-   └────────────────────────────────────────────────────────┘
-         /assist   code to Claude, decisions to you
+ █████╗ ███████╗███████╗██╗███████╗████████╗
+██╔══██╗██╔════╝██╔════╝██║██╔════╝╚══██╔══╝
+███████║███████╗███████╗██║███████╗   ██║
+██╔══██║╚════██║╚════██║██║╚════██║   ██║
+██║  ██║███████║███████║██║███████║   ██║
+╚═╝  ╚═╝╚══════╝╚══════╝╚═╝╚══════╝   ╚═╝
+
+        e sei di nuovo protagonista
 ```
 
 ## Principles (apply in every phase)
