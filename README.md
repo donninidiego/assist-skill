@@ -41,6 +41,30 @@ hidden defaults · every equation traceable to a source and a test · captions s
 measured · no long runs on your behalf · never modify originals · explanations that start from the
 physics · the cheapest model that can do each delegated task, and other agent CLIs only if you say yes.
 
+## Example: a didactic Live Script
+
+![A kick replayed in slow motion: the impact point on the ball, the flight with the ball spinning, the verdict on the goal](examples/penalty_kick/media/penalty_kick_demo.gif)
+
+*Three kicks replayed by the last step of the demo: where the foot hits the ball, the flight in slow motion with
+the ball turning at its spin rate, and the verdict on the goal (green: goal, red: anything else). The values of each
+kick are written under the picture. [Same clips as MP4](examples/penalty_kick/media/penalty_kick_demo.mp4).*
+
+[`examples/penalty_kick/`](examples/penalty_kick/) is a whole `/assist` run on a deliberately silly project: kick a
+football at a goal and see what the physics does. It is small enough to read in one sitting, and it shows what each
+phase leaves behind:
+
+| You want to see | Look at |
+|---|---|
+| the intent, requirements R1–R10 with their verifications, the decisions D1–D14 (including the ones the user reversed) | [`docs/assist/`](examples/penalty_kick/docs/assist/) |
+| three blocks with I/O contracts, one parameters file, a test per requirement | [`src/`](examples/penalty_kick/src/), [`tests/`](examples/penalty_kick/tests/), [`parameters.m`](examples/penalty_kick/parameters.m) |
+| a Live Script written for study: one part per block, a numeric check printed in each, a table of every outcome (impact point on the ball above, verdict on the goal below), and a last step **Your shot** with five sliders | [`examples/PenaltyKickWalkthrough.m`](examples/penalty_kick/examples/PenaltyKickWalkthrough.m) |
+
+To run it, open the Live Script in MATLAB with `examples/penalty_kick/examples` as the current folder. The sliders
+are controls of the Live Editor: releasing one re-runs the section and replays the kick. The picture above is a
+recording of that animation made by [`tools/makeShotVideo.m`](examples/penalty_kick/tools/makeShotVideo.m), not a
+screen capture of the Live Editor. The drag and lift coefficients of the example are illustrative, not taken from a
+source, and every figure says so.
+
 ## Install
 
 Claude Code only looks for skills in fixed places: `~/.claude/skills/` (yours, for every project) and
@@ -130,7 +154,8 @@ files or repositories without being asked; never run long computations on their 
 
 ## Requirements
 - MATLAB R2025a+ for plain-text Live Scripts (earlier versions work for everything except the demo
-  format); MATLAB MCP server recommended for static checks and quick runs.
+  format); MATLAB MCP server recommended for static checks and quick runs. Sliders in a plain-text Live Script
+  were checked on R2026a Update 5 only.
 - Python variant: Python 3.9+, `numpy`, `matplotlib`, `pytest`.
 
 ## Layout
@@ -144,12 +169,19 @@ skills/assist/
   templates/python/     the Python twins
   templates/docs/       STATE, CONTEXT, spec, architecture, plan, DECISIONS, REVIEW_LOG, README guide,
                         block README, theory index, REFERENCES, PARAMETERS
+examples/penalty_kick/  a worked example: process files in docs/assist/, MATLAB blocks, tests, Live Script demo
+                        with sliders, and tools/makeShotVideo.m that records the animation in media/
 ```
 
 ## Verification status
 MATLAB templates: static analysis clean, 5/5 unit tests pass, Live Script saved to `.mlx` as a valid
 archive, walkthrough runs in under a second. Python templates: written to the same structure but not
 executed on the authoring machine; run `pytest` once on first use.
+
+Example `penalty_kick` (7 October 2026, MATLAB R2026a Update 5): 51 tests pass, static analysis clean on 25 files,
+the demo runs in about 4 s from the command window, and MATLAB recognises its 5 sliders when the Live Script is
+converted to `.mlx`. Not yet done: the documentation phase of that example (guide README, theory notes), and a
+review of the sliders by a person dragging them in the Live Editor.
 
 ## Origin
 Distilled from a research-software project built plan
