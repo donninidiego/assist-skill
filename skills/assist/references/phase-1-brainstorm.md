@@ -5,6 +5,11 @@ Goal: turn "I want X" into a spec the user recognizes and has corrected. Invoke
 Fallback: `fallback-process.md` §Brainstorm.
 
 ## Steps
+0. **Context from the documents.** If `docs/assist/CONTEXT.md` exists (the context intake ran), start from it: say
+   what the documents already answer (purpose, constraints, candidate requirements) and ask only what they leave
+   open. A folder with only documents has no code to audit: after the intake, work starts here, with the digest
+   as the starting point of the spec. If documents exist but the intake has not run, run it first
+   (`references/context-intake.md`).
 1. **Intent.** Ask one question at a time: why does this exist, who uses the result, what does success
    look like (a paper figure? a benchmark? a flight test?). If the request already answers, reflect it
    back instead of asking again.
