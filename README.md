@@ -70,7 +70,7 @@ installed, and install it only if it is not. Each step has a check; do not go on
    *Check:* if yes, skip to step 5.
 2. **Download.** Clone this repository next to the user's other tools, not inside a project they are working on:
    ```sh
-   git clone <repo-url> assist-skill
+   git clone https://github.com/donninidiego/assist-skill.git assist-skill
    ```
    *Check:* `assist-skill/skills/assist/SKILL.md` exists. If `git` or the network is unavailable, stop and tell
    the user; do not invent a copy of the skill.
