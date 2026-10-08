@@ -41,7 +41,7 @@ hidden defaults · every equation traceable to a source and a test · captions s
 measured · no long runs on your behalf · never modify originals · explanations that start from the
 physics · the cheapest model that can do each delegated task, and other agent CLIs only if you say yes.
 
-## Example: a didactic Live Script
+## Example: a Live Script generated with the skill
 
 ![A kick replayed in slow motion: the impact point on the ball, the flight with the ball spinning, the verdict on the goal](examples/penalty_kick/media/penalty_kick_demo.gif)
 
@@ -50,14 +50,64 @@ the ball turning at its spin rate, and the verdict on the goal (green: goal, red
 kick are written under the picture. [Same clips as MP4](examples/penalty_kick/media/penalty_kick_demo.mp4).*
 
 [`examples/penalty_kick/`](examples/penalty_kick/) is a whole `/assist` run on a deliberately silly project: kick a
-football at a goal and see what the physics does. It is small enough to read in one sitting, and it shows what each
-phase leaves behind:
+football at a goal and see what the physics does. **The Live Script
+[`PenaltyKickWalkthrough.m`](examples/penalty_kick/examples/PenaltyKickWalkthrough.m) was generated with the skill**,
+together with the requirements, the architecture, the plan, the code and the tests behind it. Claude wrote them; the
+author took every engineering decision (14 of them, logged in `DECISIONS.md`, one of them a reversal of an earlier choice).
 
-| You want to see | Look at |
-|---|---|
-| the intent, requirements R1–R10 with their verifications, the decisions D1–D14 (including the ones the user reversed) | [`docs/assist/`](examples/penalty_kick/docs/assist/) |
-| three blocks with I/O contracts, one parameters file, a test per requirement | [`src/`](examples/penalty_kick/src/), [`tests/`](examples/penalty_kick/tests/), [`parameters.m`](examples/penalty_kick/parameters.m) |
-| a Live Script written for study: one part per block, a numeric check printed in each, a table of every outcome (impact point on the ball above, verdict on the goal below), and a last step **Your shot** with five sliders | [`examples/PenaltyKickWalkthrough.m`](examples/penalty_kick/examples/PenaltyKickWalkthrough.m) |
+The demo is written for study: one part per block, each with its inputs first, a figure, a numeric check printed
+(for example `range without air: 16.7537 m, analytic 2*vh*vz/g = 16.7537 m, relative error 2.1e-16`) and a line on what to observe.
+Its last step, **Your shot**, has five sliders for the impact point, strength and aim of the kick.
+
+### Then the skill teaches it to you
+Generating the demo is not the end. `/assist review` opens an **interactive dialogue** that walks the Live Script
+section by section until you can defend the design:
+
+1. Claude frames the section, explains the **physical sense** first (what the physics guarantees), then the numerical
+   method and the **real lines of code**, and where it breaks.
+2. You ask whatever is not clear; Claude answers from the code and the theory notes, not from memory.
+3. Claude asks you one or two targeted questions and waits. A right answer is confirmed in one line; a partial or
+   wrong one is re-explained from another angle (a different analogy, a concrete number) and asked again.
+4. Only when you say "next" does it move on. The outcome of each section goes to `docs/assist/REVIEW_LOG.md`;
+   a bug found on the way goes back to the build phase with a regression test, and a decision you change updates
+   `DECISIONS.md` and everything downstream of it.
+
+It works best with the demo run on your own screen: if a figure disagrees with the explanation, yours wins and it
+becomes a finding. *The guided review of this example has not been run yet.*
+
+### What the skill leaves behind, on this example
+The architecture of the example, a chain of three blocks with one parameters file:
+
+```
+ shot ──► [1] kickImpact ──► launch ──► [2] flightDynamics ──► traj ──► [3] classifyShot ──► result
+ (user)    impulse, spin     v0, ω0      gravity, drag, Magnus   path     goal geometry       GOAL, POST, …
+                                         parameters.m: one file, one sub-struct per block
+```
+
+| Phase | What the skill produces | In the example |
+|---|---|---|
+| 1 Brainstorm | intent, numbered requirements each with a way to verify it, constraints, known limits; every choice logged as D1, D2, … with the options considered | [`spec.md`](examples/penalty_kick/docs/assist/spec.md), [`DECISIONS.md`](examples/penalty_kick/docs/assist/DECISIONS.md) |
+| 2 Architecture | block diagram, a contract per block (purpose, inputs and outputs with units and frame, parameters, assumptions, theory, test), the data passed between blocks field by field, a traceability matrix | [`architecture.md`](examples/penalty_kick/docs/assist/architecture.md) |
+| 3 Plan | tasks per block, stop points, checks whose pass criterion is written **before** measuring, what is out of scope | [`plan.md`](examples/penalty_kick/docs/assist/plan.md) |
+| 4 Build | one function per block with a header (physical context, theory, units, assumptions, example), inputs validated, no model parameter hidden as a default in a function, one parameters file | [`src/`](examples/penalty_kick/src/), [`parameters.m`](examples/penalty_kick/parameters.m) |
+| 4 Tests | one test class per block, tests named after the requirement they check, written before the code | [`tests/`](examples/penalty_kick/tests/): 51 tests in 8 classes |
+| 6 Demo | the Live Script above | [`examples/`](examples/penalty_kick/examples/) |
+| every step | where the project stands, what is next, open questions | [`STATE.md`](examples/penalty_kick/docs/assist/STATE.md) |
+| 5 Docs, 7 Review | guide README, theory with index, references, parameters; the review log | not yet produced for this example |
+
+The tests are not decoration; they are tied to the physics. One requirement, followed through the files:
+
+| Requirement | Block | Test | What it checks |
+|---|---|---|---|
+| R3: the Magnus force does no work | 2, `flightDynamics` | `R3_magnusOnlyConservesMechanicalEnergy` in `tFlightDynamics` | with that force alone the mechanical energy stays constant: drift measured 8e-15, criterion 1e-6 |
+
+Other tests check a closed form (the flight without air equals the parabola), a symmetry (opposite impact points mirror
+each other), the failures the code promises (an impact point beyond the ball is refused), and the link between pieces:
+`tWalkthroughControls` reads the Live Script and fails if a slider limit stops matching `parameters.m`. Two things
+went wrong during the build and show what the loop is for: a requirement was worded wrongly (energy, not speed, is
+conserved) and was corrected in the spec rather than in the tolerance (decision D12); and a rounding error that
+let an impact point land one unit in the last place outside its limit was found, then pinned by a seeded regression
+test.
 
 To run it, open the Live Script in MATLAB with `examples/penalty_kick/examples` as the current folder. The sliders
 are controls of the Live Editor: releasing one re-runs the section and replays the kick. The picture above is a
