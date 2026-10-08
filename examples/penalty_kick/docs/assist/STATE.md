@@ -12,7 +12,7 @@ Read this first when resuming. Update it at the end of every step.
 | Existing docs | none (new project) |
 | Current phase | 7 guided review of the demo run on sections 1 to 4 of 7 (13 questions, 7 right); the user validated the flow and stopped there, 2026-10-08. Phase 5 (docs, plan task 8) not done |
 | Last completed step | sliders, slow-motion animation, outcome tiles and the recorded video (`media/`, `tools/makeShotVideo.m`) added; example cited in the repo README, 2026-10-07 |
-| Next step | the user decides: continue the review (sections 5 to 7) or close. Pending: a "Sources" line in the demo and the demo saved with outputs (user's decision); everything of 2026-10-08 (REFERENCES.md, header links, review log, skill and README updates) is not committed |
+| Next step | the user decides: continue the review (sections 5 to 7) or close. The demo is clean (no outputs) and has the "Sources" line; everything is committed and pushed |
 
 ## Test status
 51 passed, 0 failed, 0 incomplete (suite 2.2 s); static analysis clean (25 files, 0 issues); demo 3.9 s from the command

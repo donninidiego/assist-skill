@@ -24,6 +24,7 @@
 %[text] | 4 `animateShot`, `drawImpactPoint`, `drawVerdict` | `src/4_visualization` | figures only |
 %[text:table]
 %[text] **Frame:** origin on the ground at the penalty mark, $ x $ towards the goal, $ y $ to the left looking at the goal, $ z $ up. The ball centre starts at height $ R $.
+%[text] **Sources:** every equation on this page and the formulas behind the checks are listed in `REFERENCES.md` (project folder) with the section and equation number read on the source page (University Physics Volume 1, OpenStax, and two NASA Glenn pages), what the project derives itself, and what has no source. The drag and lift coefficients are illustrative.
 %%
 %[text] ## Setup
 %[text] `par` (created by `parameters.m`) holds all parameters, in sub-structs that follow the chain. You may change values in `parameters.m`; the demo reads them from there.
@@ -43,12 +44,12 @@ run(fullfile(repoRoot, 'parameters.m'));       % (re)builds the struct par from 
 %[text] **Idea.** Where the foot touches the ball sets the spin; how hard it hits sets the speed. The impact point is given as a fraction of the radius, seen from behind the kick: *lateral* positive to the left of the centre, *vertical* positive above it.
 %[text] **Inputs first.** The reference shot `par.shot`, used in steps 1 to 3.
 shot = par.shot;                               % reference shot, from parameters.m
-fprintf('[Step1] impact point: lateral %+.2f R, vertical %+.2f R\n', shot.offsetLateral, shot.offsetVertical); %[output:98975cbb]
-fprintf('[Step1] impulse J = %.1f N s, aim: azimuth %.1f deg, elevation %.1f deg\n', shot.impulse, shot.aimAzimuth, shot.aimElevation); %[output:102f2b7c]
+fprintf('[Step1] impact point: lateral %+.2f R, vertical %+.2f R\n', shot.offsetLateral, shot.offsetVertical);
+fprintf('[Step1] impulse J = %.1f N s, aim: azimuth %.1f deg, elevation %.1f deg\n', shot.impulse, shot.aimAzimuth, shot.aimElevation);
 %[text] **Run.**
 launch = kickImpact(shot, par.ball, par.kick);
-fprintf('[Step1] launch speed |v0| = J/m = %.2f m/s\n', launch.speedEquivalent); %[output:027d8e8d]
-fprintf('[Step1] spin omega0 = [%.1f %.1f %.1f] rad/s, |omega0| = %.1f rev/s\n', launch.spin, norm(launch.spin)/(2*pi)); %[output:26ada53d]
+fprintf('[Step1] launch speed |v0| = J/m = %.2f m/s\n', launch.speedEquivalent);
+fprintf('[Step1] spin omega0 = [%.1f %.1f %.1f] rad/s, |omega0| = %.1f rev/s\n', launch.spin, norm(launch.spin)/(2*pi));
 %[text] **Result.** The impact point on the ball, and the three components of the spin it produced.
 tiledlayout(1, 2);
 drawImpactPoint(nexttile, shot, par.kick.maxOffset);
@@ -61,12 +62,12 @@ ylabel(ax, 'spin component [rad/s]');  title(ax, 'Spin produced');
 %[text] **Numeric checks (printed).** A hit through the centre must give exactly zero spin (R1); the momentum and the spin must satisfy $ m\\,v\_0 = J $ and $ |\\mathbf{\\omega}\_0| = R\\,J\\,|\\mathrm{offset}| / I $ (R5).
 shotCentre = shot;  shotCentre.offsetLateral = 0;  shotCentre.offsetVertical = 0;
 launchCentre = kickImpact(shotCentre, par.ball, par.kick);
-fprintf('[Check R1] centred hit: |spin| = %g rad/s (expected exactly 0)\n', norm(launchCentre.spin)); %[output:59abe867]
+fprintf('[Check R1] centred hit: |spin| = %g rad/s (expected exactly 0)\n', norm(launchCentre.spin));
 assert(norm(launchCentre.spin) == 0, 'A hit through the centre must give zero spin.');
 inertia      = par.ball.inertiaFactor * par.ball.mass_kg * par.ball.radius_m^2;                      % [kg m^2]
 spinExpected = par.ball.radius_m * shot.impulse * hypot(shot.offsetLateral, shot.offsetVertical) / inertia;   % [rad/s]
-fprintf('[Check R5] |spin| = %.4f rad/s, expected R*J*|offset|/I = %.4f rad/s\n', norm(launch.spin), spinExpected); %[output:438daa56]
-fprintf('[Check R5] m*|v0| = %.6f N s, J = %.6f N s\n', par.ball.mass_kg*norm(launch.velocity), shot.impulse); %[output:4f8f1a6f]
+fprintf('[Check R5] |spin| = %.4f rad/s, expected R*J*|offset|/I = %.4f rad/s\n', norm(launch.spin), spinExpected);
+fprintf('[Check R5] m*|v0| = %.6f N s, J = %.6f N s\n', par.ball.mass_kg*norm(launch.velocity), shot.impulse);
 assert(abs(norm(launch.spin) - spinExpected) < 1e-9*spinExpected, 'Spin magnitude differs from the theory.');
 assert(abs(par.ball.mass_kg*norm(launch.velocity) - shot.impulse) < 1e-9*shot.impulse, 'Momentum differs from the impulse.');
 %%
@@ -99,12 +100,12 @@ grid(ax2, 'on');  xlabel(ax2, 'x towards the goal [m]');  ylabel(ax2, 'y, left [
 cases = {"no air", trajVacuum; "drag only", trajDrag; "drag and Magnus", trajFull};
 rows  = cellfun(@(t) [t.t(end), t.position(2:3, end)', norm(t.velocity(:, end))], cases(:, 2), 'UniformOutput', false);
 rows  = vertcat(rows{:});
-disp(table(string(cases(:, 1)), rows(:, 1), rows(:, 2), rows(:, 3), rows(:, 4), 'VariableNames', ... %[output:group:2a42ee77] %[output:5c337516]
-    {'case', 'time_s', 'y_m', 'z_m', 'speed_ms'})); %[output:group:2a42ee77] %[output:5c337516]
-fprintf('[Step2] drag changes the height at the goal plane by %+.3f m and the speed by %+.2f m/s\n', ... %[output:group:9931f0fe] %[output:951972c1]
-    trajDrag.position(3, end) - trajVacuum.position(3, end), norm(trajDrag.velocity(:, end)) - norm(trajVacuum.velocity(:, end))); %[output:group:9931f0fe] %[output:951972c1]
-fprintf('[Step2] Magnus changes the lateral position by %+.3f m and the height by %+.3f m\n', ... %[output:group:3fa22ccb] %[output:118fcd13]
-    trajFull.position(2, end) - trajDrag.position(2, end), trajFull.position(3, end) - trajDrag.position(3, end)); %[output:group:3fa22ccb] %[output:118fcd13]
+disp(table(string(cases(:, 1)), rows(:, 1), rows(:, 2), rows(:, 3), rows(:, 4), 'VariableNames', ...
+    {'case', 'time_s', 'y_m', 'z_m', 'speed_ms'}));
+fprintf('[Step2] drag changes the height at the goal plane by %+.3f m and the speed by %+.2f m/s\n', ...
+    trajDrag.position(3, end) - trajVacuum.position(3, end), norm(trajDrag.velocity(:, end)) - norm(trajVacuum.velocity(:, end)));
+fprintf('[Step2] Magnus changes the lateral position by %+.3f m and the height by %+.3f m\n', ...
+    trajFull.position(2, end) - trajDrag.position(2, end), trajFull.position(3, end) - trajDrag.position(3, end));
 %[text] **How it enters the next block.** `trajFull` (the full model) is judged in step 3.
 %[text] **What to observe:** the grey dashed path (no air) is the reference parabola; the other two are the same shot with air. The printed differences say what drag and Magnus each did. The lateral position is zero for the first two cases and non-zero only with Magnus, because without spin there is nothing to push the ball sideways.
 %[text] **Numeric checks (printed).** Without air the range must equal the analytic parabola (R2); with the Magnus force alone the mechanical energy must be conserved, because that force does no work (R3).
@@ -112,13 +113,13 @@ goalFar      = par.goal;  goalFar.penaltyDistance_m = 100;                   % f
 trajRange    = flightDynamics(launch, par.ball, flightVacuum, goalFar);
 rangeNumeric = hypot(trajRange.position(1, end), trajRange.position(2, end));                   % [m]
 rangeTheory  = 2*hypot(launch.velocity(1), launch.velocity(2))*launch.velocity(3)/par.flight.gravity_ms2;   % [m] 2 vh vz / g
-fprintf('[Check R2] range without air: %.4f m, analytic 2*vh*vz/g = %.4f m, relative error %.1e\n', ... %[output:group:455b1d9a] %[output:6c2592cd]
-    rangeNumeric, rangeTheory, abs(rangeNumeric - rangeTheory)/rangeTheory); %[output:group:455b1d9a] %[output:6c2592cd]
+fprintf('[Check R2] range without air: %.4f m, analytic 2*vh*vz/g = %.4f m, relative error %.1e\n', ...
+    rangeNumeric, rangeTheory, abs(rangeNumeric - rangeTheory)/rangeTheory);
 assert(abs(rangeNumeric - rangeTheory) < 1e-6*rangeTheory, 'Range without air must match the parabola.');
 flightMagnus = par.flight;  flightMagnus.dragCoeff = 0;
 trajMagnus   = flightDynamics(launch, par.ball, flightMagnus, par.goal);
 energy       = mechanicalEnergy(trajMagnus, par);
-fprintf('[Check R3] Magnus only: largest relative change of the mechanical energy %.1e (tolerance 1e-6)\n', max(abs(energy - energy(1)))/energy(1)); %[output:52ab07de]
+fprintf('[Check R3] Magnus only: largest relative change of the mechanical energy %.1e (tolerance 1e-6)\n', max(abs(energy - energy(1)))/energy(1));
 assert(max(abs(energy - energy(1)))/energy(1) < 1e-6, 'The Magnus force must not change the mechanical energy.');
 %%
 %[text] ## Step 3: the verdict (block 3)
@@ -126,7 +127,7 @@ assert(max(abs(energy - energy(1)))/energy(1) < 1e-6, 'The Magnus force must not
 %[text] **Inputs first.** The path of the full model and the goal geometry in `par.goal`.
 %[text] **Run.**
 result = classifyShot(trajFull, par.ball, par.goal);
-fprintf('[Step3] outcome: %s, ball centre at the goal plane: y = %+.3f m, z = %.3f m\n', result.label, result.yAtGoal, result.zAtGoal); %[output:816c1beb]
+fprintf('[Step3] outcome: %s, ball centre at the goal plane: y = %+.3f m, z = %.3f m\n', result.label, result.yAtGoal, result.zAtGoal);
 %[text] **Result.** The goal seen from the kicker, with the ball at the instant it crosses the plane.
 tiledlayout(1, 1);
 drawVerdict(nexttile, result, par);
@@ -159,9 +160,9 @@ for i = 1:nTour
     drawVerdict(nexttile(nTour + i), tourResults{i}, par, Labels=false, BallScale=par.animation.ballDrawScale);
 end
 tourOutcome = cellfun(@(r) r.label, tourResults)';
-disp([table(replace([tour.name]', '|', ' '), 'VariableNames', {'case'}), struct2table(tourShots(:)), ... %[output:group:53b15e6c] %[output:0b0db7c9]
-    table(tourOutcome, cellfun(@(r) r.yAtGoal, tourResults)', cellfun(@(r) r.zAtGoal, tourResults)', ... %[output:0b0db7c9]
-    'VariableNames', {'outcome', 'y_m', 'z_m'})]); %[output:group:53b15e6c] %[output:0b0db7c9]
+disp([table(replace([tour.name]', '|', ' '), 'VariableNames', {'case'}), struct2table(tourShots(:)), ...
+    table(tourOutcome, cellfun(@(r) r.yAtGoal, tourResults)', cellfun(@(r) r.zAtGoal, tourResults)', ...
+    'VariableNames', {'outcome', 'y_m', 'z_m'})]);
 if ~isequal(tourOutcome', ["GOAL", "POST", "WIDE", "CROSSBAR", "HIGH", "SHORT"])
     warning('The tour no longer shows the six outcomes in this order: the parameters changed, pick new values.');
 end
@@ -184,19 +185,19 @@ if ~isequal(myShot, requested)
 end
 [myResult, myTraj, myLaunch] = takeShot(myShot, par);
 animateShot(myShot, myTraj, myResult, par);
-fprintf('[Your shot] outcome: %s\n', myResult.label); %[output:0ddeb9c5]
-fprintf('[Your shot] launch speed %.1f m/s, spin %.1f rev/s, flight time %.2f s\n', myLaunch.speedEquivalent, norm(myLaunch.spin)/(2*pi), myResult.flightTime); %[output:2185aad7]
-fprintf('[Your shot] ball centre at the goal plane: y = %+.2f m, z = %.2f m (goal: |y| < %.2f m, z < %.2f m, ball radius %.2f m)\n', ... %[output:group:12e82db1] %[output:3c2f139b]
-    myResult.yAtGoal, myResult.zAtGoal, par.goal.width_m/2, par.goal.height_m, par.ball.radius_m); %[output:group:12e82db1] %[output:3c2f139b]
+fprintf('[Your shot] outcome: %s\n', myResult.label);
+fprintf('[Your shot] launch speed %.1f m/s, spin %.1f rev/s, flight time %.2f s\n', myLaunch.speedEquivalent, norm(myLaunch.spin)/(2*pi), myResult.flightTime);
+fprintf('[Your shot] ball centre at the goal plane: y = %+.2f m, z = %.2f m (goal: |y| < %.2f m, z < %.2f m, ball radius %.2f m)\n', ...
+    myResult.yAtGoal, myResult.zAtGoal, par.goal.width_m/2, par.goal.height_m, par.ball.radius_m);
 %[text] **What to observe:** the colour of the end marker (green for GOAL, red otherwise), the title and the right-hand picture agree with the printed outcome. A SHORT shot has no position at the goal plane (NaN).
 %%
 %[text] ## Result
 %[text] The reference shot against your shot (run the section above first; the table shows the last kick):
-disp(table(["reference"; "your shot"], [shot.impulse; myShot.impulse], [launch.speedEquivalent; myLaunch.speedEquivalent], ... %[output:group:58c2b5d1] %[output:5aa17fdb]
-    [norm(launch.spin)/(2*pi); norm(myLaunch.spin)/(2*pi)], [result.label; myResult.label], ... %[output:5aa17fdb]
-    [result.yAtGoal; myResult.yAtGoal], [result.zAtGoal; myResult.zAtGoal], 'VariableNames', ... %[output:5aa17fdb]
-    {'shot', 'impulse_Ns', 'speed_ms', 'spin_revs', 'outcome', 'y_m', 'z_m'})); %[output:group:58c2b5d1] %[output:5aa17fdb]
-fprintf('Total time: %.1f s\n', toc(tStart)); %[output:7c38d85d]
+disp(table(["reference"; "your shot"], [shot.impulse; myShot.impulse], [launch.speedEquivalent; myLaunch.speedEquivalent], ...
+    [norm(launch.spin)/(2*pi); norm(myLaunch.spin)/(2*pi)], [result.label; myResult.label], ...
+    [result.yAtGoal; myResult.yAtGoal], [result.zAtGoal; myResult.zAtGoal], 'VariableNames', ...
+    {'shot', 'impulse_Ns', 'speed_ms', 'spin_revs', 'outcome', 'y_m', 'z_m'}));
+fprintf('Total time: %.1f s\n', toc(tStart));
 %%
 %[text] ## Key points
 %[text] - The impact point matters only through the spin: a centred hit gives exactly zero spin (checked in step 1).
@@ -229,61 +230,4 @@ end
 %---
 %[control:slider:e60d]
 %   data: {"defaultValue":11,"label":"Aim, elevation [deg]","max":60,"min":1,"run":"Section","runOn":"ValueChanged","step":1}
-%---
-%[output:98975cbb]
-%   data: {"dataType":"text","outputData":{"text":"[Step1] impact point: lateral -0.20 R, vertical -0.10 R\n","truncated":false}}
-%---
-%[output:102f2b7c]
-%   data: {"dataType":"text","outputData":{"text":"[Step1] impulse J = 10.5 N s, aim: azimuth 0.0 deg, elevation 8.0 deg\n","truncated":false}}
-%---
-%[output:027d8e8d]
-%   data: {"dataType":"text","outputData":{"text":"[Step1] launch speed |v0| = J\/m = 24.42 m\/s\n","truncated":false}}
-%---
-%[output:26ada53d]
-%   data: {"dataType":"text","outputData":{"text":"[Step1] spin omega0 = [-9.3 -33.3 65.9] rad\/s, |omega0| = 11.9 rev\/s\n","truncated":false}}
-%---
-%[output:59abe867]
-%   data: {"dataType":"text","outputData":{"text":"[Check R1] centred hit: |spin| = 0 rad\/s (expected exactly 0)\n","truncated":false}}
-%---
-%[output:438daa56]
-%   data: {"dataType":"text","outputData":{"text":"[Check R5] |spin| = 74.4568 rad\/s, expected R*J*|offset|\/I = 74.4568 rad\/s\n","truncated":false}}
-%---
-%[output:4f8f1a6f]
-%   data: {"dataType":"text","outputData":{"text":"[Check R5] m*|v0| = 10.500000 N s, J = 10.500000 N s\n","truncated":false}}
-%---
-%[output:5c337516]
-%   data: {"dataType":"text","outputData":{"text":"          <strong>case<\/strong>           <strong>time_s<\/strong>      <strong>y_m<\/strong>        <strong>z_m<\/strong>      <strong>speed_ms<\/strong>\n    <strong>_________________<\/strong>    <strong>_______<\/strong>    <strong>______<\/strong>    <strong>_______<\/strong>    <strong>________<\/strong>\n\n    \"no air\"              0.4549         0    0.64092     24.204 \n    \"drag only\"           0.4899         0    0.53402     20.948 \n    \"drag and Magnus\"    0.49172    0.5145    0.78555     20.835 \n\n","truncated":false}}
-%---
-%[output:951972c1]
-%   data: {"dataType":"text","outputData":{"text":"[Step2] drag changes the height at the goal plane by -0.107 m and the speed by -3.26 m\/s\n","truncated":false}}
-%---
-%[output:118fcd13]
-%   data: {"dataType":"text","outputData":{"text":"[Step2] Magnus changes the lateral position by +0.515 m and the height by +0.252 m\n","truncated":false}}
-%---
-%[output:6c2592cd]
-%   data: {"dataType":"text","outputData":{"text":"[Check R2] range without air: 16.7537 m, analytic 2*vh*vz\/g = 16.7537 m, relative error 2.1e-16\n","truncated":false}}
-%---
-%[output:52ab07de]
-%   data: {"dataType":"text","outputData":{"text":"[Check R3] Magnus only: largest relative change of the mechanical energy 8.4e-15 (tolerance 1e-6)\n","truncated":false}}
-%---
-%[output:816c1beb]
-%   data: {"dataType":"text","outputData":{"text":"[Step3] outcome: GOAL, ball centre at the goal plane: y = +0.515 m, z = 0.786 m\n","truncated":false}}
-%---
-%[output:0b0db7c9]
-%   data: {"dataType":"text","outputData":{"text":"             <strong>case<\/strong>              <strong>offsetLateral<\/strong>    <strong>offsetVertical<\/strong>    <strong>impulse<\/strong>    <strong>aimAzimuth<\/strong>    <strong>aimElevation<\/strong>     <strong>outcome<\/strong>        <strong>y_m<\/strong>        <strong>z_m<\/strong>  \n    <strong>_______________________<\/strong>    <strong>_____________<\/strong>    <strong>______________<\/strong>    <strong>_______<\/strong>    <strong>__________<\/strong>    <strong>____________<\/strong>    <strong>__________<\/strong>    <strong>_______<\/strong>    <strong>_______<\/strong>\n\n    \"reference\"                    -0.2              -0.1          10.5           0              8         \"GOAL\"         0.5145    0.78555\n    \"side spin aim 12 deg\"         -0.6                 0          10.5          12              8         \"POST\"         3.6152      0.473\n    \"side spin aim 14 deg\"         -0.6                 0          10.5          14              8         \"WIDE\"         4.0628    0.45929\n    \"backspin elev. 12 deg\"        -0.2              -0.7          10.5           0             12         \"CROSSBAR\"    0.32743     2.4145\n    \"backspin elev. 14 deg\"        -0.2              -0.7          10.5           0             14         \"HIGH\"        0.33368     2.8204\n    \"topspin above centre\"         -0.2               0.3          10.5           0              8         \"SHORT\"           NaN        NaN\n\n","truncated":false}}
-%---
-%[output:0ddeb9c5]
-%   data: {"dataType":"text","outputData":{"text":"[Your shot] outcome: GOAL\n","truncated":false}}
-%---
-%[output:2185aad7]
-%   data: {"dataType":"text","outputData":{"text":"[Your shot] launch speed 25.6 m\/s, spin 23.6 rev\/s, flight time 0.48 s\n","truncated":false}}
-%---
-%[output:3c2f139b]
-%   data: {"dataType":"text","outputData":{"text":"[Your shot] ball centre at the goal plane: y = +0.41 m, z = 1.98 m (goal: |y| < 3.66 m, z < 2.44 m, ball radius 0.11 m)\n","truncated":false}}
-%---
-%[output:5aa17fdb]
-%   data: {"dataType":"text","outputData":{"text":"       <strong>shot<\/strong>        <strong>impulse_Ns<\/strong>    <strong>speed_ms<\/strong>    <strong>spin_revs<\/strong>    <strong>outcome<\/strong>      <strong>y_m<\/strong>        <strong>z_m<\/strong>  \n    <strong>___________<\/strong>    <strong>__________<\/strong>    <strong>________<\/strong>    <strong>_________<\/strong>    <strong>_______<\/strong>    <strong>_______<\/strong>    <strong>_______<\/strong>\n\n    \"reference\"       10.5        24.419       11.85      \"GOAL\"      0.5145    0.78555\n    \"your shot\"         11        25.581      23.555      \"GOAL\"     0.41087     1.9812\n\n","truncated":false}}
-%---
-%[output:7c38d85d]
-%   data: {"dataType":"text","outputData":{"text":"Total time: 4.3 s\n","truncated":false}}
 %---

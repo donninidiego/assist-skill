@@ -40,9 +40,8 @@ and were corrected in the conversation.
 |---|---|---|---|---|---|
 
 ## Doc / caption gaps found
-- The equations on the first page of the demo carried no source. Found on 2026-10-08 while explaining section 1; fix: `REFERENCES.md` (equation, section and number read on the source page, what is derived here, what has no source) and links from the headers of `kickImpact`, `flightDynamics`, `liftCoefficient` and from spec §5. Still to do: one line "Sources: see REFERENCES.md" in the demo, which the user has saved with outputs, so it waits for the user's ok.
-- The demo file saved by the Live Editor carries the outputs (175 KB, images in base64); it is not committed yet, the
-  user has to say whether to keep the repository copy without outputs. (found 2026-10-08, parked)
+- The equations on the first page of the demo carried no source. Found on 2026-10-08 while explaining section 1; fix: `REFERENCES.md` (equation, section and number read on the source page, what is derived here, what has no source) and links from the headers of `kickImpact`, `flightDynamics`, `liftCoefficient` and from spec §5. The line "Sources" was added to the demo on 2026-10-08 (user's ok).
+- The demo file saved by the Live Editor carries the outputs (175 KB at first, 455 KB later, images in base64). Decision of the user on 2026-10-08: the repository copy stays clean (no outputs), the saved copy was kept outside the repository. Done.
 
 ## How the user likes the review conducted
 - Always give feedback, also on a right answer, and reward the user: say why it is right, name what they did well, show the progress. Said on 2026-10-08; saved to memory and written into the skill.
