@@ -117,6 +117,6 @@ never strip or overwrite the saved copy without asking: it is their save.
 ## Animations
 A loop that updates graphics objects and calls `drawnow` updates the output figure of the editor while it runs, so a
 section can replay a motion. Keep the drawing in a function that takes a frame callback, so that a tool script can
-record the same frames to a GIF or an MP4 without waiting for real time. A GIF keeps the palette of its first frame for
+record the same frames to a GIF without waiting for real time. A GIF keeps the palette of its first frame for
 all the following ones: give it one fixed palette for the whole animation, or colours that only appear at the end (a
 verdict in green or red) turn grey.

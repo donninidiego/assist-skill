@@ -24,13 +24,17 @@ Fallback: `fallback-process.md` §Brainstorm.
    recommendation (decision protocol). Log each decision as D1, D2, …
 6. **Theory sources.** List the papers/books the model rests on; they seed `REFERENCES.md`. Verify
    citations against the source before listing them — never cite from memory.
+   **If the user gave only a prompt** (empty folder, no documents), search for the sources yourself: web search, then
+   open the page of each candidate and read the equation you intend to use with its number. Propose the list, saying
+   what you read and what you could not open (a paywalled or password-protected file is reported, never bypassed), and
+   let the user confirm it before it enters the spec. A source you did not open is not listed.
 7. **Plot intent.** If figures are expected, ask now whether they target a journal (see coding
    standards, plotting §0), since it changes figure sizing and fonts.
 
 ## Output
 `docs/assist/spec.md` (template in `templates/docs/spec.md`): intent, requirements table
 (ID | requirement | verification), constraints, chosen approach, out of scope, known limits to declare.
-`DECISIONS.md` updated.
+`DECISIONS.md` updated, and `REFERENCES.md` with the verified entries when the sources were searched.
 
 ## Gate
 The user reads the written spec and approves it. Until then, no architecture and no code.

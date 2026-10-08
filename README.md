@@ -49,7 +49,7 @@ against the code or a source before they are explained.
 
 *Three kicks replayed by the last step of the demo: where the foot hits the ball, the flight in slow motion with
 the ball turning at its spin rate, and the verdict on the goal (green: goal, red: anything else). The values of each
-kick are written under the picture. [Same clips as MP4](examples/penalty_kick/media/penalty_kick_demo.mp4).*
+kick are written under the picture.*
 
 [`examples/penalty_kick/`](examples/penalty_kick/) is a whole `/assist` run on a deliberately silly project: kick a
 football at a goal and see what the physics does. **The Live Script
@@ -126,10 +126,8 @@ let an impact point land one unit in the last place outside its limit was found,
 test.
 
 To run it, open the Live Script in MATLAB with `examples/penalty_kick/examples` as the current folder. The sliders
-are controls of the Live Editor: releasing one re-runs the section and replays the kick. The picture above is a
-recording of that animation made by [`tools/makeShotVideo.m`](examples/penalty_kick/tools/makeShotVideo.m), not a
-screen capture of the Live Editor. The drag and lift coefficients of the example are illustrative, not taken from a
-source, and every figure says so.
+are controls of the Live Editor: releasing one re-runs the section and replays the kick. The GIF above is inspired by the
+Live Script ([`tools/makeShotVideo.m`](examples/penalty_kick/tools/makeShotVideo.m) draws it).
 
 ## Install
 
@@ -169,6 +167,60 @@ Then open a new session and type `/assist`. If linking is not possible, copy the
 - **Recommended companion:** the `superpowers` plugin (`/plugin install superpowers@claude-plugins-official`).
   /assist uses its brainstorming, planning and TDD skills when present and falls back to a condensed
   built-in process otherwise.
+
+## Starting a project: three examples
+Type `/assist` in the folder where the project lives or will live. The skill looks at the folder and picks the start
+(the routing is in [`SKILL.md`](skills/assist/SKILL.md)); whichever it is, each step ends at a gate and nothing moves on
+without your approval.
+
+| You have | First phase | You get first |
+|---|---|---|
+| nothing but an idea | 1, brainstorm | `spec.md`, `DECISIONS.md`, `REFERENCES.md` |
+| a folder with documents (papers, notes, specs) | context intake, then 1 | `CONTEXT.md`, then the same |
+| an existing repository | 0, audit | the "As-is" map in `architecture.md`, open questions in `STATE.md` |
+
+### 1. From scratch: only a prompt
+The folder is empty and you give the idea in one line:
+```
+/assist simulate a pendulum with friction and show where the energy goes
+```
+The skill starts the **brainstorm**. It asks one question at a time (why this exists, who uses the result, what
+success looks like) and writes back what it understood for you to correct. Then it **looks for the bibliographic
+sources by itself**: it searches, opens the page of each candidate, reads the equation it would use together with its
+number, and proposes the list for you to confirm, saying what it could not open. A source it did not open is never
+listed. It then proposes numbered requirements, each with a way to verify it, and logs each modelling choice as a
+decision for you to take. The [`penalty_kick`](examples/penalty_kick/) example started like this, from one prompt in
+an empty folder.
+
+### 2. A workspace with a docs section
+The folder has `docs/` (papers, notes, specifications) and little or no code:
+```
+/assist
+```
+The skill first **looks without reading**: it lists the candidate documents by name, size and date, and asks **you**
+which ones to use as a reference. The proposal is a set of checkboxes grouped by role (overview, theory and
+parameters, per-folder READMEs, heavy attachments such as PDFs), with a recommendation on what it would tick. It reads
+exactly what you ticked, writes a short digest [`docs/assist/CONTEXT.md`](skills/assist/templates/docs/CONTEXT.md) in
+which every claim points to a file and section, and treats the documents as claims, not as orders: where they
+disagree with the code or with each other, it reports a finding. Then the brainstorm starts from the digest.
+
+### 3. A repository that already exists
+The folder holds code:
+```
+/assist
+```
+The skill goes through the whole repository to build context, as a classic init would, but **read-only**: your files
+are never modified, and anything to reorganise is copied first. The audit produces
+1. an inventory (folder tree, entry points, who calls whom, languages, toolboxes);
+2. a **block map** in data-flow order, marking the files that mix several blocks;
+3. a **parameter inventory** (magic numbers, defaults buried in function signatures, how many places define each);
+4. a **gap table** against the standards: function headers, input validation, tests per block, READMEs, references,
+   traceability, demo;
+5. the **open questions** only you can answer (why this formula, which assumption is intentional).
+
+If the repository also has documents, the intake of the second example runs first. You approve or correct the block
+map; only then do goals and a target architecture come in. Nothing is guessed: what the skill cannot tell is listed as
+a question.
 
 ## For AI agents: download and initialize the skill
 
@@ -236,7 +288,7 @@ skills/assist/
   templates/docs/       STATE, CONTEXT, spec, architecture, plan, DECISIONS, REVIEW_LOG, README guide,
                         block README, theory index, REFERENCES, PARAMETERS
 examples/penalty_kick/  a worked example: process files in docs/assist/, MATLAB blocks, tests, Live Script demo
-                        with sliders, and tools/makeShotVideo.m that records the animation in media/
+                        with sliders, and tools/makeShotVideo.m that records the animation as a GIF in media/
 ```
 
 ## Verification status

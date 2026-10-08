@@ -154,7 +154,7 @@ Live Editor, and the animation has not been watched there.
 | Task | Result |
 |---|---|
 | ~~10a~~ | `animateShot` options `RealTime` and `OnFrame` (called after each frame), test first (`tVisualization`): 51 tests in total |
-| ~~10b~~ | `tools/makeShotVideo.m` records three kicks (GOAL, POST, SHORT) with the slider values written on the frames: `media/penalty_kick_demo.gif` (2.1 MB, 153 frames) and `.mp4` (0.3 MB, 10 s) |
+| ~~10b~~ | `tools/makeShotVideo.m` records three kicks (GOAL, POST, SHORT) with the slider values written on the frames: `media/penalty_kick_demo.gif` (2.1 MB, 153 frames) |
 | ~~10c~~ | repo README: section "Example: a didactic Live Script" with the GIF, layout and verification lines |
 
 Found while recording: a GIF keeps the palette of its first frame, and the first frame (before the verdict) is all grey,
