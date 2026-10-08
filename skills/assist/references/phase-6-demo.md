@@ -36,6 +36,16 @@ Script in plain text) or `python-variant.md` (percent-format notebook).
 - After rewriting a Live Script, warn the user to close the editor tab **without saving** — the Live
   Editor can overwrite your version with a stale one.
 
+## Interactive parts
+- If the user wants to choose values in the demo, use controls (`live-script-format.md`) with a section that re-runs
+  on release, and tie the control limits to the parameters file with a test. Offer the animation of the result in the
+  same output figure.
+- Figures with several panels: look at the exported figure (`export(..., Run=true)`) for overlapping titles and
+  unreadable markers before handing the demo over; panels meant to be small need their own readable settings (for
+  example an enlarged marker, declared in the caption).
+- Every equation on the first page of the demo needs a source in `REFERENCES.md`, read on the page, with what the
+  project derives itself and what has no source marked as such.
+
 ## Exit
 The user ran the demo end to end. Errors they hit return to phase 4 as logged items. Record the run in
 `STATE.md` and start the review (phase 7) when they are ready.

@@ -39,7 +39,9 @@ tests, optional Simulink/System Composer mapping.
 Code to Claude, decisions to you (logged as D1, D2, …) · one block at a time · one parameters file, no
 hidden defaults · every equation traceable to a source and a test · captions state only what was
 measured · no long runs on your behalf · never modify originals · explanations that start from the
-physics · the cheapest model that can do each delegated task, and other agent CLIs only if you say yes.
+physics · the cheapest model that can do each delegated task, and other agent CLIs only if you say yes · in the
+review, understanding is checked with interactive prompts, right answers are rewarded and wrong ones are verified
+against the code or a source before they are explained.
 
 ## Example: a Live Script generated with the skill
 
@@ -63,17 +65,30 @@ Its last step, **Your shot**, has five sliders for the impact point, strength an
 Generating the demo is not the end. `/assist review` opens an **interactive dialogue** that walks the Live Script
 section by section until you can defend the design:
 
-1. Claude frames the section, explains the **physical sense** first (what the physics guarantees), then the numerical
-   method and the **real lines of code**, and where it breaks.
-2. You ask whatever is not clear; Claude answers from the code and the theory notes, not from memory.
-3. Claude asks you one or two targeted questions and waits. A right answer is confirmed in one line; a partial or
-   wrong one is re-explained from another angle (a different analogy, a concrete number) and asked again.
-4. Only when you say "next" does it move on. The outcome of each section goes to `docs/assist/REVIEW_LOG.md`;
-   a bug found on the way goes back to the build phase with a regression test, and a decision you change updates
-   `DECISIONS.md` and everything downstream of it.
+1. Claude frames the section and explains the **physical sense** first (what the physics guarantees), then the numerical
+   method and the **real lines of code**, then where it breaks. You ask whatever is not clear; the answers come from
+   the code and from the sources in `REFERENCES.md`, not from memory.
+2. The questions that check your understanding appear as **interactive multiple-choice prompts**, not as text in the
+   chat. The wrong options are the real misconceptions (the answer that looks right, the quantity that scales
+   differently); none is marked as recommended, and a free-text answer is always possible.
+3. **A right answer is rewarded**: Claude says why it is right, names what exactly you got right (the trap you avoided)
+   and shows where you stand. **A wrong answer is first checked**: Claude verifies against the code, a test or a source
+   that it really is wrong (you may be right, and then it is a bug or a decision to log), and only then explains again
+   from the bibliography or from a simulation of the project's own code, with numbers you can reproduce.
+4. When the same slip comes back, Claude names the pattern and gives you the key that ends it. The tally of right and
+   wrong answers is kept exactly in `docs/assist/REVIEW_LOG.md`, so the progress shown to you is never inflated.
+5. You move on with "next", or validate a section yourself. A bug found on the way goes back to the build phase with a
+   regression test, and a decision you change updates `DECISIONS.md` and everything downstream of it.
 
 It works best with the demo run on your own screen: if a figure disagrees with the explanation, yours wins and it
-becomes a finding. *The guided review of this example has not been run yet.*
+becomes a finding.
+
+**On this example** the review was run on sections 1 to 4 of 7 (13 questions answered, 7 right); the author validated
+the flow and stopped there. The log is in [`REVIEW_LOG.md`](examples/penalty_kick/docs/assist/REVIEW_LOG.md). One slip
+came back three times, applying "energy is conserved" to a system that was not closed, and the question "which system
+is the balance written for?" ended it. The review also found that the equations on the first page had no source:
+[`REFERENCES.md`](examples/penalty_kick/REFERENCES.md) now lists each one with the equation number read on the page,
+what the project derives itself, and what has no source.
 
 ### What the skill leaves behind, on this example
 The architecture of the example, a chain of three blocks with one parameters file:
@@ -93,7 +108,8 @@ The architecture of the example, a chain of three blocks with one parameters fil
 | 4 Tests | one test class per block, tests named after the requirement they check, written before the code | [`tests/`](examples/penalty_kick/tests/): 51 tests in 8 classes |
 | 6 Demo | the Live Script above | [`examples/`](examples/penalty_kick/examples/) |
 | every step | where the project stands, what is next, open questions | [`STATE.md`](examples/penalty_kick/docs/assist/STATE.md) |
-| 5 Docs, 7 Review | guide README, theory with index, references, parameters; the review log | not yet produced for this example |
+| 5 Docs | guide README, theory with index, references, parameters | [`REFERENCES.md`](examples/penalty_kick/REFERENCES.md) only; the guide README and the theory notes are not yet produced |
+| 7 Review | a log with one row per demo section, the tally of questions, the bugs and the gaps found | [`REVIEW_LOG.md`](examples/penalty_kick/docs/assist/REVIEW_LOG.md), sections 1 to 4 |
 
 The tests are not decoration; they are tied to the physics. One requirement, followed through the files:
 
@@ -231,7 +247,8 @@ executed on the authoring machine; run `pytest` once on first use.
 Example `penalty_kick` (7 October 2026, MATLAB R2026a Update 5): 51 tests pass, static analysis clean on 25 files,
 the demo runs in about 4 s from the command window, and MATLAB recognises its 5 sliders when the Live Script is
 converted to `.mlx`. The author dragged the sliders and watched the animation in the Live Editor (7 October 2026).
-Not yet done: the documentation phase of that example (guide README, theory notes) and the guided review.
+The guided review was run on sections 1 to 4 of 7 and validated by the author. Not yet done: the guide README and
+the theory notes of that example, and sections 5 to 7 of the review.
 
 ## Origin
 Distilled from a research-software project built plan

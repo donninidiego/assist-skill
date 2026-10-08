@@ -10,9 +10,9 @@ Read this first when resuming. Update it at the end of every step.
 | MBD profile | block chain (D8) |
 | superpowers | used |
 | Existing docs | none (new project) |
-| Current phase | 6 demo written, checked, and run in the Live Editor by the user (sliders and animation verified by the user, 2026-10-07). Phase 5 (docs, plan task 8) not done |
+| Current phase | 7 guided review of the demo run on sections 1 to 4 of 7 (13 questions, 7 right); the user validated the flow and stopped there, 2026-10-08. Phase 5 (docs, plan task 8) not done |
 | Last completed step | sliders, slow-motion animation, outcome tiles and the recorded video (`media/`, `tools/makeShotVideo.m`) added; example cited in the repo README, 2026-10-07 |
-| Next step | docs (plan task 8), then `/assist review` section by section |
+| Next step | the user decides: continue the review (sections 5 to 7) or close. Pending: a "Sources" line in the demo and the demo saved with outputs (user's decision); everything of 2026-10-08 (REFERENCES.md, header links, review log, skill and README updates) is not committed |
 
 ## Test status
 51 passed, 0 failed, 0 incomplete (suite 2.2 s); static analysis clean (25 files, 0 issues); demo 3.9 s from the command
@@ -32,6 +32,7 @@ window; MATLAB recognises the 5 sliders after converting the demo to `.mlx`; 202
   (the format notes in the matlab-create-live-script plugin still say "not yet supported").
 
 ## Parked items
+- The demo file saved by the Live Editor carries the outputs (175 KB); not committed, the user decides whether to keep the repository copy without outputs.
 - Block 4 plots are exercised by smoke tests and by the demo only (no requirement of their own).
 - `liftCoefficient` has no dedicated test file; it is covered through `tFlightDynamics` (R3).
 - Phase 5 docs (README guide, PARAMETERS.md, REFERENCES.md, theory T1–T3 with index) and the folder READMEs.

@@ -16,6 +16,7 @@ function cl = liftCoefficient(S, parFlight)
 %   coefficients are taken from a source (decision D9).
 %
 %   THEORY:
+%   Sources: see REFERENCES.md (lift written as Cl (rho V^2/2) A; the Cl(S) curve itself is not sourced yet).
 %   T2, force model of block 2. The linear-then-saturating shape is a placeholder
 %   chosen for its qualitative behaviour; the real Cl(S) curve is in Goff & Carre
 %   (2010), not yet checked against the text. The values are ILLUSTRATIVE (D9).

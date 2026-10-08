@@ -19,6 +19,11 @@ function traj = flightDynamics(launch, parBall, parFlight, parGoal)
 %   liftCoefficient as a function of S = R|omega|/|v|. The spin is held constant.
 %
 %   THEORY:
+%   Sources (REFERENCES.md): drag F = (1/2) C rho A v^2, OpenStax University Physics Vol. 1, Eq. 6.5;
+%   work zero for a force perpendicular to the motion, Eq. 7.1; lift written as Cl (rho V^2/2) A, NASA Glenn
+%   "Lift Equation" (for wings: its use for a ball is a convention of this project); force perpendicular to
+%   flow and spin axis, NASA Glenn "Lift of a Soccer Ball". The vector form omega x v has no source read.
+%
 %   T2 (forces on a spinning ball). Goff & Carre (2010) and Goff et al. (2017) are
 %   the sources for the form of the coefficients; the values used here are
 %   ILLUSTRATIVE (decision D9). The assertions below exist because a flight with

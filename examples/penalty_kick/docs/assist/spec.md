@@ -56,6 +56,10 @@ Verified bibliographically on 2026-10-07: title, authors, journal and DOI read f
 repository record, then each DOI resolved through doi.org to the publisher page (IOPscience), which shows the
 same title, authors, volume and year. Only the bibliographic data were checked, not the content.
 
+0. Textbook for the formulas of blocks 1 and 2: Moebs, W., Ling, S.J., Sanny, J. (2016), *University Physics
+   Volume 1*, OpenStax (impulse, torque, angular momentum, moment of inertia, drag, work, projectile motion) and two
+   NASA Glenn pages on the lift of a spinning ball. Each equation was read on the page on 2026-10-08; the table
+   with equation numbers, what is derived here and what has no source is in `REFERENCES.md`.
 1. Goff, J.E., Carré, M.J. (2010). "Soccer ball lift coefficients via trajectory analysis". *European Journal
    of Physics* 31(4), 775–784. DOI 10.1088/0143-0807/31/4/007.
    <https://iopscience.iop.org/article/10.1088/0143-0807/31/4/007>

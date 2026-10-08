@@ -76,6 +76,8 @@ how to pick the model of each subagent, are in `references/delegation.md`.
    `% [unit] meaning`. Functions receive only their sub-struct and validate it with `requireFields`;
    no hidden defaults inside functions — two places for a default means two truths.
 4. **Traceability.** Requirement → block → theory section/equation → file → test, kept in one table.
+   Every physical equation has an entry in `REFERENCES.md`: the source, the section and equation number read on the
+   page, what the project derives itself, and what has no source (never cited from memory).
    Every equation in code cites its source; every non-trivial claim in docs points at a test or a
    measurement.
 5. **Evidence before claims.** Captions, READMEs and summaries state only what was measured. Test
@@ -87,7 +89,9 @@ how to pick the model of each subagent, are in `references/delegation.md`.
    what gets deleted.
 8. **Explain like to a researcher.** Physical meaning → what the physics guarantees → what the numerical
    method does to preserve it → the actual code lines → where it breaks. Expand every acronym the first
-   time. See `references/review-protocol.md`.
+   time. In the review, check understanding with **interactive prompts**, give feedback on every answer (reward the
+   right ones; verify the wrong ones against the code, a simulation or a source before explaining) and keep an
+   honest tally. See `references/review-protocol.md`.
 9. **Right-size every delegation.** When you start a subagent, set the model that fits the task: light for
    mechanical work, mid-tier for digests and routine writing, the strongest only for subtle reasoning and final
    review. Never the strongest for everything. If other agent CLIs are installed (Antigravity, Gemini CLI…), ask
@@ -140,7 +144,7 @@ in `STATE.md`.
 | 4 | Build block by block | `build` | `references/phase-4-build.md`, `references/coding-standards.md` | block tests pass + user says next |
 | 5 | Engineering docs | `docs` | `references/phase-5-docs.md` | docs checklist complete |
 | 6 | Walkthrough demo | `demo` | `references/phase-6-demo.md`, `references/live-script-format.md` | user ran it end to end |
-| 7 | Guided demo review | `review [section]` | `references/phase-7-review.md`, `references/review-protocol.md` | user says next, section by section |
+| 7 | Guided demo review | `review [section]` | `references/phase-7-review.md`, `references/review-protocol.md` | user says next or validates; questions asked as interactive prompts, section by section |
 | 8 | Close | `close` | `references/phase-8-close.md` | — |
 
 Gates are real stops: present the artefact, then end your turn. Approval of one stage does not approve

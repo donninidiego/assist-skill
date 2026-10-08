@@ -25,6 +25,10 @@ function launch = kickImpact(shot, parBall, parKick)
 %   matter.
 %
 %   THEORY:
+%   Sources (REFERENCES.md): impulse and momentum, OpenStax University Physics Vol. 1, Eq. 9.7;
+%   torque r x F, Eq. 10.22; angular momentum, Eq. 11.8-11.9; thin spherical shell I = (2/3) m R^2,
+%   Fig. 10.20. The angular impulse r x J is derived from them (see REFERENCES.md).
+%
 %   T1 (impulse and angular impulse of a rigid body). The assertions below exist
 %   because an offset beyond the ball's edge has no physical meaning, and an aim
 %   into the ground or away from the goal would make block 2 end at once.
