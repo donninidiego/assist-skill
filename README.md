@@ -9,7 +9,7 @@
         e sei di nuovo protagonista
 ```
 
-# /assist — engineering co-development with an AI
+# /assist — engineering co-development with an AI agent
 
 A Claude Code skill that turns the way you work with an AI on scientific/engineering code into a
 repeatable workflow. **Claude writes the code; you own every engineering decision**, and you finish
