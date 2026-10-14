@@ -46,6 +46,22 @@ Block boundaries, what is a parameter vs a constant, which quantities are expose
 of fidelity of each model, which blocks are in scope now.
 
 ## Output and gate
-`docs/assist/architecture.md` (template provided), with a block diagram (ASCII is fine). Present it,
-end the turn, and wait for approval. If the project uses Simulink/System Composer, include the mapping
-table from `mbd-integration.md`.
+The gate delivers two things:
+1. `docs/assist/architecture.md` (template provided): the source of truth, with a block diagram (ASCII is
+   fine there). If the project uses Simulink/System Composer, include the mapping table from
+   `mbd-integration.md`.
+2. **A visual page of the same architecture**, for the user to review. A markdown file with an ASCII
+   diagram is hard to take in at a glance; a page shows the data flow immediately. If the Artifact tool is
+   available, publish it as an artifact and give the link; otherwise write `docs/assist/architecture.html`
+   and give its path. Its sections, in this order:
+   - **Data flow**: the parameters file on top, then the numbered blocks as a vertical pipeline; each block
+     shows its purpose in one or two sentences and its function names; each arrow between blocks is
+     labelled with the data structure that passes; library or external calls are noted inside the block
+     that makes them; inputs that come from the GUI or the user enter at the block that receives them.
+   - **Data structures**: one table per struct passed between blocks (field, size, unit, meaning).
+   - **Folders**, **parameters-file sections**, **traceability** (requirement → block → file → test).
+   - **Decisions taken in this phase** and a **sources** footer.
+   Write it in the conversation language and follow the user's style preferences. Keep it in step with
+   `architecture.md`: republish the same page whenever the architecture changes.
+
+Present both, end the turn, and wait for approval.

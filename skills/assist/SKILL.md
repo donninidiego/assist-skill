@@ -110,7 +110,7 @@ All process artefacts live in the project under `docs/assist/`:
 | `STATE.md` | current phase, last completed step, next step, project language, open questions |
 | `CONTEXT.md` | short digest of the documents the user ticked, with pointers `[file §section]` and a "where to look" index; read it instead of reloading the documents (context intake) |
 | `spec.md` | intent, requirements R1.., chosen approach (phase 1) |
-| `architecture.md` | block diagram, I/O contracts, traceability matrix, MBD mapping (phase 2) |
+| `architecture.md` | block diagram, I/O contracts, traceability matrix, MBD mapping (phase 2); reviewed through a visual page (artifact or `architecture.html`) |
 | `plan.md` | tasks per block with stop points and falsifiable checks (phase 3) |
 | `DECISIONS.md` | user decisions D1.., dated, with options considered and rationale |
 | `REVIEW_LOG.md` | demo review: understood / doubts / bugs found / decisions raised (phase 7) |
@@ -139,7 +139,7 @@ in `STATE.md`.
 |---|---|---|---|---|
 | 0 | Audit existing project | `audit` | `references/phase-0-audit.md` | user approves the block map |
 | 1 | Brainstorm & requirements | `brainstorm` | `references/phase-1-brainstorm.md` | user approves written `spec.md` |
-| 2 | Block architecture (MBD) | `architecture` | `references/phase-2-architecture.md`, `references/mbd-integration.md` | user approves `architecture.md` |
+| 2 | Block architecture (MBD) | `architecture` | `references/phase-2-architecture.md`, `references/mbd-integration.md` | user approves `architecture.md`, reviewed on its visual page |
 | 3 | Implementation plan | `plan` | `references/phase-3-plan.md` | user approves `plan.md` and picks execution mode |
 | 4 | Build block by block | `build` | `references/phase-4-build.md`, `references/coding-standards.md` | block tests pass + user says next |
 | 5 | Engineering docs | `docs` | `references/phase-5-docs.md` | docs checklist complete |
